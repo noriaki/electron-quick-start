@@ -12,16 +12,20 @@
     "clean:win": "rm -rf ./dist/win",
 
     "pack": "npm run pack:osx && npm run pack:win",
-    "pack:osx": "npm run clean:osx && electron-packager . \"ElectronQuickStart\" --out=dist/osx --platform=darwin --arch=x64 --version=0.36.2 --icon=assets/osx/icon.icns --ignore=\"dist|assets\"",
-    "pack:win": "npm run clean:win && electron-packager . \"ElectronQuickStart\" --out=dist/win --platform=win32 --arch=ia32 --version=0.36.2 --icon=assets/win/icon.ico --ignore=\"dist|assets\"",
+    "pack:osx": "electron-packager . \"ElectronQuickStart\" --out=dist/osx --platform=darwin --arch=x64 --version=0.36.2 --icon=icon.icns --ignore=\"dist|assets\"",
+    "pack:win": "electron-packager . \"ElectronQuickStart\" --out=dist/win --platform=win32 --arch=ia32 --version=0.36.2 --icon=icon.ico --ignore=\"dist|assets\"",
 
     "build": "npm run build:osx && npm run build:win",
-    "build:osx": "npm run pack:osx && electron-builder \"dist/osx/ElectronQuickStart-darwin-x64/ElectronQuickStart.app\" --platform=osx --out=\"dist/osx\" --config=builder.json",
-    "build:win": "npm run pack:win && electron-builder \"dist/win/ElectronQuickStart-win32-ia32\" --platform=win --out=\"dist/win\" --config=builder.json",
+    "build:osx": "electron-builder \"dist/osx/ElectronQuickStart-darwin-x64/ElectronQuickStart.app\" --platform=osx --out=\"dist/osx\" --config=builder.json",
+    "build:win": "electron-builder \"dist/win/ElectronQuickStart-win32-ia32\" --platform=win --out=\"dist/win\" --config=builder.json",
 
     "archive": "npm run archive:osx && npm run archive:win",
-    "archive:osx": "npm run build:osx && zip -j \"dist/osx/Electron-Quick-Start-osx.zip\" \"dist/osx/ElectronQuickStart.dmg\"",
-    "archive:win": "npm run build:win && zip -j \"dist/win/Electron-Quick-Start-win.zip\" \"dist/win/ElectronQuickStart-Setup.exe\""
+    "archive:osx": "zip -j \"dist/osx/Electron-Quick-Start-osx.zip\" \"dist/osx/electron-quick-start.dmg\"",
+    "archive:win": "zip -j \"dist/win/Electron-Quick-Start-win.zip\" \"dist/win/electron-quick-start Setup.exe\"",
+
+    "release": "npm run release:osx && npm run release:win",
+    "release:osx": "npm run clean:osx && npm run pack:osx && npm run build:osx && npm run archive:osx",
+    "release:win": "npm run clean:win && npm run pack:win && npm run build:win && npm run archive:win"
   },
   "repository": {
     "type": "git",
