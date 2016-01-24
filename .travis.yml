@@ -1,0 +1,34 @@
+language: objective-c
+cache:
+  directories:
+  - node_modules
+env:
+- NODE_VERSION="5.0"
+before_install:
+- git clone https://github.com/creationix/nvm.git /tmp/.nvm
+- source /tmp/.nvm/nvm.sh
+- nvm install $NODE_VERSION
+- nvm use --delete-prefix $NODE_VERSION
+- node --version
+install:
+- npm install
+script:
+- npm test
+before_deploy:
+- brew update
+- brew install wine
+- wine --version
+- brew install makensis
+- npm run archive
+deploy:
+  provider: releases
+  api_key:
+    secure: qa49HyN+0AFkYgGRj5T9DSSKLOUvyEND9Fyt0k4cidaq9h2ZArznadW09vInzLIM/haSnpze5lMeUMYtVO8oNB0gqrPgcJK/QVI7h+ZGxfFxJDUISmjzGDu3UY61ndKq9wNRx6wvdzh4QzibUAsL79XgQ2iRrEW0HjSGySRiIU5EW1Iqor2oXlmEIomt5zXuwHUvzvqYBwvKhHMDRI35OnGp0qHWXikUEWWDfjqY53KNQ0O6s2gTlp6TzB5YhclZYo+IG5sL7druuX3de9RNMJl0jVhr1k/MtR/7jg8DJR+J/wyl+2Ieu9ne4gw44RyjGgLXLeBWkUnLlb39juhN/RnQG34MtLg7wv9vdZVzp0YMwUwmwVKnbSBIHmgNo/L3rhG3ac4R+OX0m3AFZ/wiDgYTB/pPe/f2ZLfgw2VLLQajYKLE/HLQK6YI3HahSgJoPQs2Tko8Pv5hAGpecaq7E8yQJ7P+PhqHYEaiiISKv2kK/My8KHoEGPLTGJFnCHJ5nTt9/VeIICmzzP9KDxwF7BJ4hlfrqyIpOuAPa4dpKWf68L3N7M4L+ADZMYFUbcX/qiXZkScwQHkh1Xg0wN/3f9XVq8EUv8e4FS1vL/rEKI2sztkmHojKJCnFdLMjuuVsbBGStXNdrTHL8hmNYttg0frJN9f+74nwQy8438TU4B8=
+  file:
+    - dist/win/Electron-Quick-Start-win.zip
+    - dist/osx/Electron-Quick-Start-osx.zip
+  skip_cleanup: true
+  on:
+    repo: noriaki/electron-quick-start
+    tags: true
+    all_branches: true
